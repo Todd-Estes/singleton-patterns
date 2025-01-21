@@ -15,3 +15,16 @@ If Singleton does not inherit from type, it won't function as a valid metaclass.
 This is why you explicitly inherit type when creating a metaclass.
 
 __call__ => __new__ => __init__
+
+```
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Logger(metaclass=Singleton):
+  def log(self, msg):
+    print(msg)
+```
